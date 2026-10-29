@@ -112,6 +112,22 @@ export default function WeddingExperience() {
     const isPlaying = openState === "playing";
     const isOpened = openState === "opened";
 
+    const playMusic = async () => {
+        const audio = document.getElementById("wedding-audio") as HTMLAudioElement | null;
+        if (!audio) {
+            return false;
+        }
+
+        try {
+            await audio.play();
+            setMusicOn(true);
+            return true;
+        } catch {
+            setMusicOn(false);
+            return false;
+        }
+    };
+
     useEffect(() => {
         setT(getCountdown());
         const id = window.setInterval(() => setT(getCountdown()), 1000);
@@ -156,10 +172,8 @@ export default function WeddingExperience() {
             return;
         }
 
-        try {
-            await audio.play();
-            setMusicOn(true);
-        } catch {
+        const started = await playMusic();
+        if (!started) {
             window.alert("Add a licensed music file at public/audio/wed-music.mp3 to enable music.");
         }
     };
@@ -240,6 +254,14 @@ export default function WeddingExperience() {
             root.style.overflow = "";
             body.style.overflow = "";
         };
+    }, [isOpened]);
+
+    useEffect(() => {
+        if (!isOpened) {
+            return;
+        }
+
+        void playMusic();
     }, [isOpened]);
 
     return (
