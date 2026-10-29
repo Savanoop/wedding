@@ -112,11 +112,16 @@ export default function WeddingExperience() {
     const isPlaying = openState === "playing";
     const isOpened = openState === "opened";
 
+    const getAudio = () => document.getElementById("wedding-audio") as HTMLAudioElement | null;
+
     const playMusic = async () => {
-        const audio = document.getElementById("wedding-audio") as HTMLAudioElement | null;
+        const audio = getAudio();
         if (!audio) {
             return false;
         }
+
+        audio.muted = false;
+        audio.volume = 1;
 
         try {
             await audio.play();
@@ -126,6 +131,32 @@ export default function WeddingExperience() {
             setMusicOn(false);
             return false;
         }
+    };
+
+    const primeMusicForMobile = () => {
+        const audio = getAudio();
+        if (!audio) {
+            return;
+        }
+
+        audio.currentTime = 0;
+        audio.muted = true;
+        audio.volume = 0;
+
+        const prime = audio.play();
+        if (!prime) {
+            return;
+        }
+
+        void prime
+            .then(() => {
+                setMusicOn(true);
+            })
+            .catch(() => {
+                audio.muted = false;
+                audio.volume = 1;
+                setMusicOn(false);
+            });
     };
 
     useEffect(() => {
@@ -182,6 +213,9 @@ export default function WeddingExperience() {
         if (openState !== "closed") {
             return;
         }
+
+        // Prime audio in the same gesture so mobile browsers allow later autoplay.
+        primeMusicForMobile();
 
         setOpenState("playing");
         const openVideo = openingVideoRef.current;
@@ -259,6 +293,13 @@ export default function WeddingExperience() {
     useEffect(() => {
         if (!isOpened) {
             return;
+        }
+
+        const audio = getAudio();
+        if (audio) {
+            audio.currentTime = 0;
+            audio.muted = false;
+            audio.volume = 1;
         }
 
         void playMusic();
