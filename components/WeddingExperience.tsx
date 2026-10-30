@@ -133,32 +133,6 @@ export default function WeddingExperience() {
         }
     };
 
-    const primeMusicForMobile = () => {
-        const audio = getAudio();
-        if (!audio) {
-            return;
-        }
-
-        audio.currentTime = 0;
-        audio.muted = true;
-        audio.volume = 0;
-
-        const prime = audio.play();
-        if (!prime) {
-            return;
-        }
-
-        void prime
-            .then(() => {
-                setMusicOn(true);
-            })
-            .catch(() => {
-                audio.muted = false;
-                audio.volume = 1;
-                setMusicOn(false);
-            });
-    };
-
     useEffect(() => {
         setT(getCountdown());
         const id = window.setInterval(() => setT(getCountdown()), 1000);
@@ -214,8 +188,8 @@ export default function WeddingExperience() {
             return;
         }
 
-        // Prime audio in the same gesture so mobile browsers allow later autoplay.
-        primeMusicForMobile();
+        // Start music in the same tap gesture for mobile autoplay policies.
+        void playMusic();
 
         setOpenState("playing");
         const openVideo = openingVideoRef.current;
@@ -297,9 +271,13 @@ export default function WeddingExperience() {
 
         const audio = getAudio();
         if (audio) {
-            audio.currentTime = 0;
             audio.muted = false;
             audio.volume = 1;
+
+            if (!audio.paused) {
+                setMusicOn(true);
+                return;
+            }
         }
 
         void playMusic();
@@ -307,7 +285,7 @@ export default function WeddingExperience() {
 
     return (
         <main className="storybook">
-            <audio id="wedding-audio" src="/audio/wed-music.mp3" loop preload="none" />
+            <audio id="wedding-audio" src="/audio/wed-music1.mp3" loop preload="none" />
 
             <section className={`seal-stage ${isOpened ? "is-opened" : ""}`} aria-hidden={isOpened}>
                 <button
