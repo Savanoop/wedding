@@ -470,7 +470,7 @@ export default function WeddingExperience() {
                             </article>
                             <article className="detail-plate">
                                 <small>Dress Code</small>
-                                <p>Traditional</p>
+                                <p>Traditional Elegance</p>
                             </article>
                         </div>
 
