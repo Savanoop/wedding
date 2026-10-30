@@ -21,13 +21,13 @@ const initialCountdown: Countdown = {
     started: false,
 };
 
-const weddingDate = new Date("2026-12-06T10:45:00+05:30");
+const weddingDate = new Date("2026-12-06T10:30:00+05:30");
 const venue = "Ammachi Veedu, Kanjikuzhi, Kottayam, Kerala, India";
 const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(venue)}`;
 const calendarUrl = `https://calendar.google.com/calendar/render?${new URLSearchParams({
     action: "TEMPLATE",
     text: "Wedding of Anoop Vijayan & Vishnupriya",
-    dates: "20261206T051500Z/20261206T071500Z",
+    dates: "20261206T103000/20261206T123000",
     details: "Join us to celebrate the wedding of Anoop Vijayan and Vishnupriya.",
     location: venue,
     ctz: "Asia/Kolkata",
@@ -53,8 +53,8 @@ function downloadICS() {
         "BEGIN:VEVENT",
         "UID:anoop-vishnupriya-20261206@wedding",
         "DTSTAMP:20261029T000000Z",
-        "DTSTART;TZID=Asia/Kolkata:20261206T104500",
-        "DTEND;TZID=Asia/Kolkata:20261206T124500",
+        "DTSTART;TZID=Asia/Kolkata:20261206T103000",
+        "DTEND;TZID=Asia/Kolkata:20261206T123000",
         "SUMMARY:Wedding of Anoop Vijayan & Vishnupriya",
         `LOCATION:${venue.replace(/,/g, "\\,")}`,
         "DESCRIPTION:Join us to celebrate our wedding.",
@@ -360,7 +360,7 @@ export default function WeddingExperience() {
                         <p className="names">
                             Anoop Vijayan <i>&</i> Vishnupriya
                         </p>
-                        <p className="date">SUNDAY · 06 DECEMBER 2026 · 10:45 AM</p>
+                        <p className="date">SUNDAY · 06 DECEMBER 2026 · 10:30 AM</p>
                     </div>
                     <button
                         className="scroll"
@@ -462,7 +462,7 @@ export default function WeddingExperience() {
                             </article>
                             <article className="detail-plate">
                                 <small>The Hour</small>
-                                <p>10:45 in the morning</p>
+                                <p>10:30 in the morning</p>
                             </article>
                             <article className="detail-plate">
                                 <small>The Place</small>
